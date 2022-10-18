@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int row,column;
+    for (row=0; row<4; row++)
+    {
+        for (column=0; column<4; column++)
+        {
+            printf("*");
+        }
+        printf("\n");
+    }
+    return 0;
+}
