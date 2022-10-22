@@ -166,9 +166,7 @@ class TimeView():
         remaining = self.end_time - time_now
         if remaining > 0:
             self.canvas.delete(self.bar)
-            self.bar = self.canvas.create_rectangle(CANVAS_WIDTH - 20*remaining - 100, GRID_SIZE*16.25,
-                                               CANVAS_WIDTH - 100, GRID_SIZE*16.75, fill="green")
-
+            self.bar = self.canvas.create_rectangle(CANVAS_WIDTH - 20*remaining - 100, GRID_SIZE*16.25, CANVAS_WIDTH - 100, GRID_SIZE*16.75, fill="green")
             
 class View(Frame):
     def __init__(self, root, controller):
@@ -263,8 +261,7 @@ class View(Frame):
         self.car_views.clear()
 
     def display_score(self):
-        self.canvas.itemconfig(self.score_text, text="Level: " + str(self.controller.get_level())
-                               + "  Score: " + str(self.controller.get_score()), font=self.scorefont)
+        self.canvas.itemconfig(self.score_text, text="Level: " + str(self.controller.get_level())+ "  Score: " + str(self.controller.get_score()), font=self.scorefont)
         self.update_lives()
 
     def update_lives(self):
@@ -297,11 +294,9 @@ class View(Frame):
 
     def game_over(self):
         self.text = self.canvas.create_text(CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 10, anchor="c")
-        self.canvas.itemconfig(self.text, text="GAME OVER!", font=self.bigfont,
-                               fill="white")
+        self.canvas.itemconfig(self.text, text="GAME OVER!", font=self.bigfont,fill="white")
         self.text2 = self.canvas.create_text(CANVAS_WIDTH/2, CANVAS_HEIGHT/2 + 110, anchor="c")
-        self.canvas.itemconfig(self.text2, text="Press r to play again.", font=self.scorefont,
-                               fill="white")
+        self.canvas.itemconfig(self.text2, text="Press r to play again.", font=self.scorefont,fill="white")
         self.messages_displayed = True
 
     def clear_messages(self):

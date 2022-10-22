@@ -55,9 +55,7 @@ class Turtle(RiverObject):
         return False
 
     def is_sunk(self):
-        return self.sunk;
-    
-        
+        return self.sunk
         
 class Car():
     def __init__(self, x, y, carnum, dir, speed):
@@ -93,7 +91,6 @@ class Car():
         margin = (GRID_SIZE*8)//10
         if frog_x > self.x - margin and frog_x < self.x + margin:
             return True
-
 
 class Frog():
     def __init__(self, x, y):
@@ -296,6 +293,7 @@ class Model():
 
     def died(self):
         self.lives = self.lives - 1
+        self.frog.reset_position()
         self.controller.died()
         if self.lives == 0:
             self.game_over()
@@ -403,7 +401,7 @@ class Model():
         
         (x, y) = self.frog.get_position()
         if x < 0 or x > CANVAS_WIDTH:
-            self.died()
+            #self.died()
             return
 
         if y >= GRID_SIZE * 10 and y <= GRID_SIZE * 14:
@@ -448,4 +446,3 @@ class Model():
             self.checkspeed()
         elif self.paused:
             self.check_pause()
-
