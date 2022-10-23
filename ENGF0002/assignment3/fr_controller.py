@@ -8,7 +8,7 @@ import time
 
 class Controller():
     def __init__(self):
-        self.root = Tk();
+        self.root = Tk()
         self.windowsystem = self.root.call('tk', 'windowingsystem')
         self.views = []
         self.root.bind_all('<Key>', self.key)
@@ -17,7 +17,7 @@ class Controller():
         self.level = -1
         self.river_objects = []
         self.cars = []
-        self.model = Model(self);
+        self.model = Model(self)
         self.add_view(View(self.root, self))
         self.model.activate()
 

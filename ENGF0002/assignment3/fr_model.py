@@ -221,7 +221,7 @@ class Model():
                     else:
                         width = self.rand.randint(80,200 - self.level * 20)
                         object = Log(x, y, width, dir, speeds[row])
-                    self.logs.append(object);
+                    self.logs.append(object)
                     self.controller.register_river_object(object)
             y = y + GRID_SIZE
 
