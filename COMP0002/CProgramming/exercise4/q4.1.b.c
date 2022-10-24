@@ -26,10 +26,10 @@ void move() {
     setColour(blue);
     int x = 100;
     int y = 175;
-    for (int n = 0; n < 75; n++) {
+    for (int n = 0; n < 20; n++) {
         update(x,y);
         x += moveDistance;
-        y -= moveDistance;
+        y -= moveDistance * 3;
         sleep(waitTime);
     }
 }
