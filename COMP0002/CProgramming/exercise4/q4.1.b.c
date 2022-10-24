@@ -4,8 +4,8 @@
 const int width = 400;
 const int height = 400;
 const int squareSize = 50;
-const int moveDistance = 5;
-const int waitTime = 25;
+const int moveDistance = 1;
+const int waitTime = 10;
 
 void drawBackground() {
     background();
@@ -25,8 +25,13 @@ void move() {
     foreground();
     setColour(blue);
     int x = 100;
-    int y = 100;
-    update(x,y);
+    int y = 175;
+    for (int n = 0; n < 75; n++) {
+        update(x,y);
+        x += moveDistance;
+        y -= moveDistance;
+        sleep(waitTime);
+    }
 }
 
 int main(void) {
