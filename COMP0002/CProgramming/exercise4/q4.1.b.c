@@ -26,29 +26,7 @@ void move() {
     setColour(blue);
     int x = 100;
     int y = 100;
-    int i = 1;
-    while(i == 1) {
-        for (int n = 0; n < 30; n++) {
-            update(x,y);
-            x += moveDistance;
-            sleep(waitTime);
-        }
-        for (int n = 0; n < 30; n++) {
-            update(x,y);
-            y += moveDistance;
-            sleep(waitTime);
-        }
-        for (int n = 0; n < 30; n++) {
-            update(x,y);
-            x -= moveDistance;
-            sleep(waitTime);
-        }
-        for (int n = 0; n < 30; n++) {
-            update(x,y);
-            y -= moveDistance;
-            sleep(waitTime);
-        }
-    }
+    update(x,y);
 }
 
 int main(void) {
