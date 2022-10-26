@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "graphics.h"
+#include <stdlib.h>
 
 const int width = 400;
 const int height = 400;

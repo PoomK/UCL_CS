@@ -24,13 +24,58 @@ void update(int x, int y) {
 void move() {
     foreground();
     setColour(blue);
+    int i = 1;
     int x = 100;
     int y = 175;
-    for (int n = 0; n < 20; n++) {
-        update(x,y);
-        x += moveDistance;
-        y -= moveDistance * 3;
-        sleep(waitTime);
+    while (i == 1) {
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x += moveDistance;
+            y -= moveDistance * 2;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x += moveDistance * 2;
+            y -= moveDistance;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x += moveDistance * 2;
+            y += moveDistance;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x += moveDistance;
+            y += moveDistance * 2;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x -= moveDistance;
+            y += moveDistance * 2;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x -= moveDistance * 2;
+            y += moveDistance;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x -= moveDistance * 2;
+            y -= moveDistance;
+            sleep(waitTime);
+        }
+        for (int n = 0; n < 25; n++) {
+            update(x,y);
+            x -= moveDistance;
+            y -= moveDistance * 2;
+            sleep(waitTime);
+        }
     }
 }
 
