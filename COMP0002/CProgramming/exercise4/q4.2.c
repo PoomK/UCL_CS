@@ -6,7 +6,7 @@
 const int width = 400;
 const int height = 400;
 const int circleSize = 30;
-const int moveDistance = 3;
+const int moveDistance = 1;
 const int waitTime = 10;
 
 void drawBackground() {
@@ -45,27 +45,69 @@ void update(int x, int y) {
 void move() {
     foreground();
     setColour(red);
-    int x = 40, y = 60, running = 1, randomX, randomY;
+    int x = 40, y = 60, running = 1, randomX = 1, randomY = 1;
     do
     {
         update(x,y);
-        x += moveDistance;
-        y += moveDistance;
+        x += moveDistance * randomX;
+        y += moveDistance * randomY;
         sleep(waitTime);
     } while (x >= 0 && y >= 0 && x <= 370 && y <= 370);
-    if (x <= 0) {
-        printf("x hit left\n");
-    } else if (y <= 0) {
-        printf("x hit top\n");
-    } else if (x >= 370) {
-        printf("x hit right\n");
-    } else if (y >= 370) {
-        printf("x hit bottom\n");
+    while (running == 1) {
+        if (x <= 0) {
+            printf("x hit left boundary\n");
+            randomX = rand() % (3 + 1 - 1) + 1;
+            if (randomY > 0) {
+                //Moving down
+                randomY = rand() % (3 + 1 - 1) + 1;
+            } else {
+                //Moving up
+                randomY = rand() % (-1 + 1 - (-3)) + (-3);
+            }
+        } else if (y <= 0) {
+            printf("x hit top boundary\n");
+            randomY = rand() % (3 + 1 - 1) + 1;
+            if (randomX < 0) {
+                //Moving left
+                randomX = rand() % (-1 + 1 - (-3)) + (-3);
+            } else {
+                //Moving right
+                randomX = rand() % (3 + 1 - 1) + 1;
+            }
+        } else if (x >= 370) {
+            printf("x hit right boundary\n");
+            randomX = rand() % (-1 + 1 - (-3)) + (-3);
+            if (randomY > 0) {
+                //Moving down
+                randomY = rand() % (3 + 1 - 1) + 1;
+            } else {
+                //Moving up
+                randomY = rand() % (-1 + 1 - (-3)) + (-3);
+            }
+        } else if (y >= 370) {
+            printf("x hit bottom boundary\n");
+            randomY = rand() % (-1 + 1 - (-3)) + (-3);
+            if (randomX < 0) {
+                //Moving left
+                randomX = rand() % (-1 + 1 - (-3)) + (-3);
+            } else {
+                //Moving right
+                randomX = rand() % (3 + 1 - 1) + 1;
+            }
+        }
+        do
+        {
+            update(x,y);
+            x += moveDistance * randomX;
+            y += moveDistance * randomY;
+            sleep(waitTime);
+        } while (x >= 0 && y >= 0 && x <= 370 && y <= 370);
+        //break;
     }
-    printf("Hit boundary");
 }
 
 int main(void) {
+    srand(time(0));
     setWindowSize(width, height);
     drawBackground();
     move();
