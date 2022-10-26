@@ -62,7 +62,7 @@ void move() {
     } else if (y >= 370) {
         printf("x hit bottom\n");
     }
-    printf("Hit bounary");
+    printf("Hit boundary");
 }
 
 int main(void) {
