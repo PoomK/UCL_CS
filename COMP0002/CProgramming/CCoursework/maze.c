@@ -52,6 +52,7 @@ void update(int x1, int y1, int x2, int y2, int x3, int y3) {
     fillPolygon(3,triangleXUpdate,triangleYUpdate);
 }
 
+//Maybe take this out as there is no need
 void getCurrentPos(int triangleX[3], int triangleY[3]) {
     currentXPos = (triangleX[0] + triangleX[1] + triangleX[2])/3;
     currentYPos = (triangleY[0] + triangleY[1] + triangleY[2])/3;
@@ -81,14 +82,12 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
     }
 }
 
-/*void left(int triangleX[3], int triangleY[3], int direction) {
-    //Use same structure as forward (check which direction it is facing)
-    return 0;
-}
-
 void right(int triangleX[3], int triangleY[3], int direction) {
     //Use same structure as forward (check which direction it is facing)
-    return 0;
+}
+
+/*void left(int triangleX[3], int triangleY[3], int direction) {
+    //Use same structure as forward (check which direction it is facing)
 }
 
 int atMarket() {
