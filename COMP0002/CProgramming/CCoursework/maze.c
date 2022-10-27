@@ -73,7 +73,6 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
     }
 }
 
-// To change parameters of how much x and y change by
 void right(int triangleX[3], int triangleY[3], int direction) {
     int i;
     if (direction == 1) { // Facing north
@@ -168,6 +167,12 @@ void move() {
         direction = 1;
     } else {
         direction += 1;
+    }
+
+    for (a = 0; a < 9; a++) {
+        forward(triangleX, triangleY, direction);
+        update(triangleX, triangleY);
+        sleep(waitTime);
     }
 
     //Code to turn left
