@@ -7,7 +7,7 @@ const int height = 520;
 const int moveDistance = 40;
 const int waitTime = 40;
 int triangleX[3], triangleY[3], grid[11][11];
-int currentXPos, currentYPos;
+int direction;
 //Create global variables for current grid positions
 
 //  Function to draw the maze
@@ -44,20 +44,10 @@ void drawBackground() {
     }
 }
 
-// !!! Need to change parameter to triangleXYarray
-void update(int x1, int y1, int x2, int y2, int x3, int y3) {
+void update(int triangleX[3], int triangleY[3]) {
     clear();
     //Draw shape
-    int triangleXUpdate[3] = {x1,x2,x3};
-    int triangleYUpdate[3] = {y1,y2,y3};
-    fillPolygon(3,triangleXUpdate,triangleYUpdate);
-}
-
-//Maybe take this out as there is no need
-void getCurrentPos(int triangleX[3], int triangleY[3]) {
-    currentXPos = (triangleX[0] + triangleX[1] + triangleX[2])/3;
-    currentYPos = (triangleY[0] + triangleY[1] + triangleY[2])/3;
-    printf("Current position of robot: (%d, %d)\n", currentXPos, currentYPos);
+    fillPolygon(3,triangleX,triangleY);
 }
 
 // Function for moving the robot forward, depending on the direction it is facing
@@ -83,14 +73,59 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
     }
 }
 
+// To change parameters of how much x and y change by
 void right(int triangleX[3], int triangleY[3], int direction) {
-    //Use same structure as forward (check which direction it is facing)
+    int i;
+    if (direction == 1) { // Facing north
+        triangleY[0] -= 40;
+        triangleX[1] -= 40;
+        triangleX[2] += 20;
+        triangleY[2] += 20;
+    } else if (direction == 2) { // Facing east
+        triangleX[0] += 40;
+        triangleY[1] -= 40;
+        triangleX[2] -= 20;
+        triangleY[2] += 20;
+    } else if (direction == 3) { // Facing south
+        triangleY[0] += 40;
+        triangleX[1] += 40;
+        triangleX[2] -= 20;
+        triangleY[2] -= 20;
+    } else { // Facing west
+        triangleX[0] -= 40;
+        triangleY[1] += 40;
+        triangleX[2] += 20;
+        triangleY[2] -= 20;
+    }
 }
 
-/*void left(int triangleX[3], int triangleY[3], int direction) {
-    //Use same structure as forward (check which direction it is facing)
+// To change paramters of how much x and u change by
+void left(int triangleX[3], int triangleY[3], int direction) {
+    int i;
+    if (direction == 1) { // Facing north
+        triangleX[0] += 40;
+        triangleY[1] -= 40;
+        triangleX[2] -= 20;
+        triangleY[2] += 20;
+    } else if (direction == 2) { // Facing east
+        triangleY[0] += 40;
+        triangleX[1] += 40;
+        triangleX[2] -= 20;
+        triangleY[2] -= 20;
+    } else if (direction == 3) { // Facing south
+        triangleX[0] -= 40;
+        triangleY[1] += 40;
+        triangleX[2] += 20;
+        triangleY[2] -= 20;
+    } else { // Facing west
+        triangleY[0] -= 40;
+        triangleX[1] -= 40;
+        triangleX[2] += 20;
+        triangleY[2] += 20;
+    }
 }
 
+/*
 int atMarket() {
     int atMarketEnd;
     // Make sure to check current pos /3 will get decimal and need to round up
@@ -107,23 +142,43 @@ int canMoveForward() {
 void move() {
     int a;
     foreground();
+
     //Direction is to show which direction robot is moving
     //(1 = north, 2 = east, 3 = south, 4 = west)
-    int direction = 2;
+    direction = 2;
     setColour(green);
+
     //Set start position of robot and draw the starting robot
     int triangleX[3] = {40,40,80};
     int triangleY[3] = {80,120,100};
-    getCurrentPos(triangleX, triangleY);
-    update(triangleX[0],triangleY[0],triangleX[1],triangleY[1],triangleX[2],triangleY[2]);
-    
-    //Keep moving forward until hit wall
+    update(triangleX, triangleY);
 
     //Code to move forward by one block
-    forward(triangleX, triangleY, direction);
-    update(triangleX[0],triangleY[0],triangleX[1],triangleY[1],triangleX[2],triangleY[2]);
+    for (a = 0; a < 9; a++) {
+        forward(triangleX, triangleY, direction);
+        update(triangleX, triangleY);
+        sleep(waitTime);
+    }
+
+    //Code to turn right
+    right(triangleX, triangleY, direction);
+    update(triangleX, triangleY);
     sleep(waitTime);
-    getCurrentPos(triangleX, triangleY);
+    if (direction == 4) {
+        direction = 1;
+    } else {
+        direction += 1;
+    }
+
+    //Code to turn left
+    /*left(triangleX, triangleY, direction);
+    update(triangleX, triangleY);
+    sleep(waitTime);
+    if (direction == 1) {
+        direction = 4;
+    } else {
+        direction -= 1;
+    }*/
 }
 
 int main(void) {
