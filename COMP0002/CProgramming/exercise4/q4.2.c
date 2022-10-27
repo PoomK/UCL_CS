@@ -102,7 +102,6 @@ void move() {
             y += moveDistance * randomY;
             sleep(waitTime);
         } while (x >= 0 && y >= 0 && x <= 370 && y <= 370);
-        //break;
     }
 }
 
