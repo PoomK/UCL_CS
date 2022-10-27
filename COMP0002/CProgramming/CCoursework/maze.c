@@ -44,6 +44,7 @@ void drawBackground() {
     }
 }
 
+// !!! Need to change parameter to triangleXYarray
 void update(int x1, int y1, int x2, int y2, int x3, int y3) {
     clear();
     //Draw shape
