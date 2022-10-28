@@ -6,9 +6,7 @@ const int width = 520;
 const int height = 520;
 const int moveDistance = 40;
 const int waitTime = 40;
-int triangleX[3], triangleY[3], grid[11][11];
-int direction;
-int currentXGrid, currentYGrid;
+int triangleX[3], triangleY[3], grid[11][11], direction, currentXGrid, currentYGrid;
 
 //  Function to draw the maze
 void drawBackground() {
@@ -125,10 +123,10 @@ void left(int triangleX[3], int triangleY[3], int direction) {
 }
 
 /*
-int atMarket() {
-    int atMarketEnd;
+int atMarker() {
+    int atMarkerEnd;
     //Use grid posiition to check whether grid position in front is 2
-    return atMarketEnd;
+    return atMarkerEnd;
 }
 
 int canMoveForward() {
