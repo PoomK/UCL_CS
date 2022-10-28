@@ -2,11 +2,13 @@ class Node():
     def __init__(self, value):
         self.value = value
         self.next = None
+        self.previous = None
 
     def append(self, node):
         if self.next is not None:
             raise(ValueError("next node is not none"))
         self.next = node
+        node.previous = self.value
 
     def __eq__(self, other):
         return self.value == other.value
