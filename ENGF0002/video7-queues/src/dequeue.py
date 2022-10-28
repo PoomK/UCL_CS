@@ -33,6 +33,8 @@ class Queue():
         
         value = self.head.value
         self.head = self.head.next
+        if self.head.next != None:
+            self.head.next = None
 
         if self.head is None:
             # we've removed the last item
@@ -49,6 +51,8 @@ class Queue():
         
         value = self.tail.value
         self.tail = self.tail.next
+        if self.tail.previous != None:
+            self.tail.previous = None
 
         if self.tail is None:
             # we've removed the last item
