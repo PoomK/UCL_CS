@@ -8,7 +8,11 @@ class Node():
         if self.next is not None:
             raise(ValueError("next node is not none"))
         self.next = node
-        node.previous = self.value
+
+    def prepend(self, node):
+        if self.previous is not None:
+            raise(ValueError("previous node is not none"))
+        self.previous = node
 
     def __eq__(self, other):
         return self.value == other.value
