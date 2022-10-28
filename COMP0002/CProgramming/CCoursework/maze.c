@@ -8,7 +8,7 @@ const int moveDistance = 40;
 const int waitTime = 40;
 int triangleX[3], triangleY[3], grid[11][11];
 int direction;
-//Create global variables for current grid positions
+int currentXGrid, currentYGrid;
 
 //  Function to draw the maze
 void drawBackground() {
@@ -51,7 +51,7 @@ void update(int triangleX[3], int triangleY[3]) {
 }
 
 // Function for moving the robot forward, depending on the direction it is facing
-// !!! Need to add the current position in grid
+// !!! Need to add the current position in grid, add into parameters
 void forward(int triangleX[3], int triangleY[3], int direction) {
     int i;
     if (direction == 1) { // Facing north
@@ -127,8 +127,7 @@ void left(int triangleX[3], int triangleY[3], int direction) {
 /*
 int atMarket() {
     int atMarketEnd;
-    // Make sure to check current pos /3 will get decimal and need to round up
-    // Or just use current grid position
+    //Use grid posiition to check whether grid position in front is 2
     return atMarketEnd;
 }
 
@@ -150,7 +149,14 @@ void move() {
     //Set start position of robot and draw the starting robot
     int triangleX[3] = {40,40,80};
     int triangleY[3] = {80,120,100};
+    currentXGrid = 0;
+    currentYGrid = 1;
     update(triangleX, triangleY);
+
+    // While loop to keep running until robot reaches the end
+        // do while loop until block in front is of value 1 or 2
+
+        // Check whether wall or end, if wall then turn right, if end then print message to show at end and break out of big while loop
 
     //Code to move forward by one block
     for (a = 0; a < 9; a++) {
