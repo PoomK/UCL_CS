@@ -6,7 +6,7 @@ class Queue():
         self.head = None
         self.tail = None
 
-    def add(self, value):
+    def add_tail(self, value):
         # add to the queue
         n = Node(value)
         if self.head is None:
@@ -15,7 +15,16 @@ class Queue():
             self.tail.append(n)
         self.tail = n
 
-    def pop(self):
+    def add_head(self, value):
+        # add to the queue
+        n = Node(value)
+        if self.tail is None:
+            self.tail = n
+        else:
+            self.head.prepend(n)
+        self.head = n
+
+    def pop_head(self):
         # remove the first queued element, and return its stored value
 
         # are there any items?
@@ -28,6 +37,22 @@ class Queue():
         if self.head is None:
             # we've removed the last item
             self.tail = None
+
+        return value
+
+    def pop_tail(self):
+        # remove the first queued element, and return its stored value
+
+        # are there any items?
+        if self.tail is None:
+            raise(ValueError("Attempt to pop from empty queue"))
+        
+        value = self.tail.value
+        self.tail = self.tail.next
+
+        if self.tail is None:
+            # we've removed the last item
+            self.head = None
 
         return value
 
