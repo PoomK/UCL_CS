@@ -187,7 +187,7 @@ void move() {
 
     canMoveForward(currentXGrid, currentYGrid, direction);
 
-    /*while (running == 1) {
+    while (running == 1) {
         canMoveForwardYN = canMoveForward(currentXGrid, currentYGrid, direction);
         printf("%d\n", canMoveForwardYN);
         //Keep moving forward until cannot move forward
@@ -207,47 +207,7 @@ void move() {
         } else {
             direction += 1;
         }
-        break;
-    }*/
-
-    //Code to move forward by one block
-    /*for (a = 0; a < 9; a++) {
-        forward(triangleX, triangleY, direction);
-        printf("(%d, %d)\n", currentXGrid, currentYGrid);
-        update(triangleX, triangleY);
-        canMoveForwardYN = canMoveForward(currentXGrid, currentYGrid, direction);
-        printf("%d\n", canMoveForwardYN);
-        sleep(waitTime);
     }
-
-    //Code to turn right
-    right(triangleX, triangleY, direction);
-    update(triangleX, triangleY);
-    sleep(waitTime);
-    if (direction == 4) {
-        direction = 1;
-    } else {
-        direction += 1;
-    }
-
-    for (a = 0; a < 9; a++) {
-        forward(triangleX, triangleY, direction);
-        printf("(%d, %d)\n", currentXGrid, currentYGrid);
-        update(triangleX, triangleY);
-        canMoveForwardYN = canMoveForward(currentXGrid, currentYGrid, direction);
-        printf("%d\n", canMoveForwardYN);
-        sleep(waitTime);
-    }*/
-
-    //Code to turn left
-    /*left(triangleX, triangleY, direction);
-    update(triangleX, triangleY);
-    sleep(waitTime);
-    if (direction == 1) {
-        direction = 4;
-    } else {
-        direction -= 1;
-    }*/
 }
 
 int main(void) {
