@@ -1,10 +1,7 @@
+// If turn right and cannot move forward, then it will go the other direction
+
 #include <stdio.h>
 #include "graphics.h"
-
-// Maybe create array for the path, if dead end, then move back to previous place with more than 1 option
-// Maybe array of previous actions and make it go opposite
-// Maybe change cell with multiple directions that it can travel to X, this means that
-// I will have to check all directions for everytime I move forward
 
 // Declare global variables and constants
 const int width = 560;
@@ -22,10 +19,10 @@ void drawBackground() {
         {1,1,1,1,1,1,1,1,1,1,1,1},
         {0,0,0,1,0,0,0,1,0,1,1,1},
         {1,1,0,1,0,1,0,1,0,0,0,1},
-        {1,1,0,1,0,0,0,0,0,1,1,1},
-        {1,1,0,1,0,1,1,1,0,1,0,1},
-        {1,1,0,0,0,1,1,0,0,0,0,1},
-        {1,1,0,1,0,0,0,0,1,0,1,1},
+        {1,1,0,1,0,1,0,0,0,1,1,1},
+        {1,1,0,1,0,1,1,1,0,1,1,1},
+        {1,1,0,0,0,1,1,1,0,0,1,1},
+        {1,1,0,1,0,0,0,1,1,0,1,1},
         {1,0,0,1,0,1,0,1,1,0,1,1},
         {1,0,1,1,0,1,1,1,1,0,0,1},
         {1,0,0,0,0,1,1,1,0,0,1,1},
@@ -138,10 +135,10 @@ int checkForward(int currentXGrid, int currentYGrid, int direction) {
         {1,1,1,1,1,1,1,1,1,1,1,1},
         {0,0,0,1,0,0,0,1,0,1,1,1},
         {1,1,0,1,0,1,0,1,0,0,0,1},
-        {1,1,0,1,0,0,0,0,0,1,1,1},
-        {1,1,0,1,0,1,1,1,0,1,0,1},
-        {1,1,0,0,0,1,1,0,0,0,0,1},
-        {1,1,0,1,0,0,0,0,1,0,1,1},
+        {1,1,0,1,0,1,0,0,0,1,1,1},
+        {1,1,0,1,0,1,1,1,0,1,1,1},
+        {1,1,0,0,0,1,1,1,0,0,1,1},
+        {1,1,0,1,0,0,0,1,1,0,1,1},
         {1,0,0,1,0,1,0,1,1,0,1,1},
         {1,0,1,1,0,1,1,1,1,0,0,1},
         {1,0,0,0,0,1,1,1,0,0,1,1},

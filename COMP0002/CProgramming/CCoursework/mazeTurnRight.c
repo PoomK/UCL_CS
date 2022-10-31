@@ -1,3 +1,5 @@
+// Turn right only
+
 #include <stdio.h>
 #include "graphics.h"
 
@@ -168,8 +170,6 @@ void move() {
     currentXGrid = 0;
     currentYGrid = 1;
     update(triangleX, triangleY);
-
-    checkForward(currentXGrid, currentYGrid, direction);
 
     while (running == 1) {
         forwardValue = checkForward(currentXGrid, currentYGrid, direction);
