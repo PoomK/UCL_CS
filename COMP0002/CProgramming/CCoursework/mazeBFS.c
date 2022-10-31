@@ -9,6 +9,7 @@ TO DO:
     - Create function to check all directions
 - if dead end, then move to previous x and go out different exit
 - Create function to show that robot has already passed
+- Create struct for stack and pop and push functions
 */
 
 // Declare global variables and constants
@@ -33,7 +34,7 @@ void drawBackground() {
         {1,1,0,1,0,0,0,0,1,0,1,1},
         {1,0,0,1,0,1,0,1,1,0,1,1},
         {1,0,1,1,0,1,1,1,1,0,0,1},
-        {1,0,0,0,0,1,1,1,0,0,1,1},
+        {1,0,0,0,0,0,0,1,0,0,1,1},
         {1,1,0,1,1,1,1,0,0,1,1,1},
         {1,1,1,1,1,1,1,1,2,1,1,1}
         };
@@ -149,7 +150,7 @@ int checkForward(int currentXGrid, int currentYGrid, int direction) {
         {1,1,0,1,0,0,0,0,1,0,1,1},
         {1,0,0,1,0,1,0,1,1,0,1,1},
         {1,0,1,1,0,1,1,1,1,0,0,1},
-        {1,0,0,0,0,1,1,1,0,0,1,1},
+        {1,0,0,0,0,0,0,1,0,0,1,1},
         {1,1,0,1,1,1,1,0,0,1,1,1},
         {1,1,1,1,1,1,1,1,2,1,1,1}
         };
@@ -197,34 +198,7 @@ void move() {
             break;
         }
         printf("Hit wall\n");
-        //Turn right and check if can move forward, if can't, then turn left twice to check other direction
-        right(triangleX, triangleY, direction);
-        update(triangleX, triangleY);
-        sleep(waitTime);
-        if (direction == 4) {
-            direction = 1;
-        } else {
-            direction += 1;
-        }
-        forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-        if (forwardValue == 1) {
-            left(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
-            sleep(waitTime);
-            if (direction == 1) {
-                direction = 4;
-            } else {
-                direction -= 1;
-            }
-            left(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
-            sleep(waitTime);
-            if (direction == 1) {
-                direction = 4;
-            } else {
-                direction -= 1;
-            }
-        }
+        break;
     }
 }
 
