@@ -9,14 +9,14 @@ const int width = 520;
 const int height = 520;
 const int moveDistance = 40;
 const int waitTime = 40;
-int triangleX[3], triangleY[3], grid[11][11], direction, currentXGrid, currentYGrid, canMoveForwardYN;
+int triangleX[3], triangleY[3], direction, currentXGrid, currentYGrid, forwardValue;
 
 //  Function to draw the maze
 void drawBackground() {
     background();
     int i, j;
     //Grid for the maze (1 for black or 0 for white or 2 for grey)
-    int grid[11][11] = {
+    int gridBack[11][11] = {
         {1,1,1,1,1,1,1,1,1,1,1},
         {0,0,0,0,0,0,0,0,0,0,1},
         {1,0,1,1,1,1,1,1,1,0,1},
@@ -31,9 +31,9 @@ void drawBackground() {
         };
     for (i = 0; i <= 10; i++) {
         for (j = 0; j <= 10; j++) {
-            if (grid[i][j] == 1) {
+            if (gridBack[i][j] == 1) {
                 setColour(black);
-            } else if (grid[i][j] == 0) {
+            } else if (gridBack[i][j] == 0) {
                 setColour(white);
             } else {
                 setColour(gray);
@@ -129,16 +129,8 @@ void left(int triangleX[3], int triangleY[3], int direction) {
     printf("Turned left\n");
 }
 
-/*
-int atMarker() {
-    int atMarkerEnd;
-    //Use grid posiition to check whether grid position in front is 2
-    return atMarkerEnd;
-}
-*/
-
-// Return 0 if can move forward, return 1 if wall ahead
-int canMoveForward(int currentXGrid, int currentYGrid, int direction) {
+// Return 0 if can move forward, return 1 if wall ahead, return 2 if end point ahead
+int checkForward(int currentXGrid, int currentYGrid, int direction) {
     int grid[11][11] = {
         {1,1,1,1,1,1,1,1,1,1,1},
         {0,0,0,0,0,0,0,0,0,0,1},
@@ -152,19 +144,14 @@ int canMoveForward(int currentXGrid, int currentYGrid, int direction) {
         {1,0,0,0,1,0,1,0,0,0,1},
         {1,1,1,1,1,1,1,1,1,2,1}
         };
-    printf("grid at 9,4: %d\n", grid[9][4]);
-    printf("grid at 9,5: %d\n", grid[9][5]);
-    printf("grid at 9,6: %d\n", grid[9][6]);
-    printf("grid at 9,7: %d\n", grid[9][7]);
     if (direction == 1) { // Facing north
-        return grid[currentXGrid][currentYGrid-1];
+        return grid[currentYGrid-1][currentXGrid];
     } else if (direction == 2) { // Facing east
-        return grid[currentXGrid + 1][currentYGrid];
+        return grid[currentYGrid][currentXGrid + 1];
     } else if (direction == 3) { // Facing south
-        printf("%d\n",grid[currentXGrid][currentYGrid + 1]);
-        return grid[currentXGrid][currentYGrid + 1];
+        return grid[currentYGrid + 1][currentXGrid];
     } else { // Facing west
-        return grid[currentXGrid - 1][currentYGrid];
+        return grid[currentYGrid][currentXGrid - 1];
     }
 }
 
@@ -185,17 +172,22 @@ void move() {
     currentYGrid = 1;
     update(triangleX, triangleY);
 
-    canMoveForward(currentXGrid, currentYGrid, direction);
+    checkForward(currentXGrid, currentYGrid, direction);
 
     while (running == 1) {
-        canMoveForwardYN = canMoveForward(currentXGrid, currentYGrid, direction);
-        printf("%d\n", canMoveForwardYN);
+        forwardValue = checkForward(currentXGrid, currentYGrid, direction);
         //Keep moving forward until cannot move forward
-        while (canMoveForwardYN == 0) {
+        while (forwardValue == 0) {
             forward(triangleX, triangleY, direction);
             update(triangleX, triangleY);
-            canMoveForwardYN = canMoveForward(currentXGrid, currentYGrid, direction);
+            forwardValue = checkForward(currentXGrid, currentYGrid, direction);
             sleep(waitTime);
+        }
+        if (forwardValue == 2) {
+            forward(triangleX, triangleY, direction);
+            update(triangleX, triangleY);
+            printf("Reached end point!!!\n");
+            break;
         }
         printf("Hit wall\n");
         //Turn right
