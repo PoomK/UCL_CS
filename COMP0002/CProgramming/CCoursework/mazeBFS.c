@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "graphics.h"
 
+// Maybe create array for the path, if dead end, then move back to previous place with more than 1 option
+// Maybe array of previous actions and make it go opposite
+
 // Declare global variables and constants
 const int width = 520;
 const int height = 520;
@@ -13,21 +16,22 @@ void drawBackground() {
     background();
     int i, j;
     //Grid for the maze (1 for black or 0 for white or 2 for grey)
-    int gridBack[11][11] = {
-        {1,1,1,1,1,1,1,1,1,1,1},
-        {0,0,0,0,0,0,0,0,0,0,1},
-        {1,0,1,1,1,1,1,1,1,0,1},
-        {1,0,0,0,0,0,1,0,1,0,1},
-        {1,0,1,1,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,0,0,1,0,1},
-        {1,0,1,0,1,1,1,1,1,0,1},
-        {1,0,1,0,0,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0,1,0,1},
-        {1,0,0,0,1,0,1,0,0,0,1},
-        {1,1,1,1,1,1,1,1,1,2,1}
+    int gridBack[12][12] = {
+        {1,1,1,1,1,1,1,1,1,1,1,1},
+        {0,0,0,1,0,0,0,1,0,1,1,1},
+        {1,1,0,1,0,1,0,1,0,0,0,1},
+        {1,1,0,1,0,0,0,0,0,1,1,1},
+        {1,1,0,1,0,1,1,1,0,1,0,1},
+        {1,1,0,0,0,1,1,0,0,0,0,1},
+        {1,1,0,1,0,0,0,0,1,0,1,1},
+        {1,0,0,1,0,1,0,1,1,0,1,1},
+        {1,0,1,1,0,1,1,1,1,0,0,1},
+        {1,0,0,0,0,0,0,1,0,0,1,1},
+        {1,1,0,1,1,1,1,0,0,1,1,1},
+        {1,1,1,1,1,1,1,1,2,1,1,1}
         };
-    for (i = 0; i <= 10; i++) {
-        for (j = 0; j <= 10; j++) {
+    for (i = 0; i <= 11; i++) {
+        for (j = 0; j <= 11; j++) {
             if (gridBack[i][j] == 1) {
                 setColour(black);
             } else if (gridBack[i][j] == 0) {
@@ -128,18 +132,19 @@ void left(int triangleX[3], int triangleY[3], int direction) {
 
 // Return 0 if can move forward, return 1 if wall ahead, return 2 if end point ahead
 int checkForward(int currentXGrid, int currentYGrid, int direction) {
-    int grid[11][11] = {
-        {1,1,1,1,1,1,1,1,1,1,1},
-        {0,0,0,0,0,0,0,0,0,0,1},
-        {1,0,1,1,1,1,1,1,1,0,1},
-        {1,0,0,0,0,0,1,0,1,0,1},
-        {1,0,1,1,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,0,0,1,0,1},
-        {1,0,1,0,1,1,1,1,1,0,1},
-        {1,0,1,0,0,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0,1,0,1},
-        {1,0,0,0,1,0,1,0,0,0,1},
-        {1,1,1,1,1,1,1,1,1,2,1}
+    int grid[12][12] = {
+        {1,1,1,1,1,1,1,1,1,1,1,1},
+        {0,0,0,1,0,0,0,1,0,1,1,1},
+        {1,1,0,1,0,1,0,1,0,0,0,1},
+        {1,1,0,1,0,0,0,0,0,1,1,1},
+        {1,1,0,1,0,1,1,1,0,1,0,1},
+        {1,1,0,0,0,1,1,0,0,0,0,1},
+        {1,1,0,1,0,0,0,0,1,0,1,1},
+        {1,0,0,1,0,1,0,1,1,0,1,1},
+        {1,0,1,1,0,1,1,1,1,0,0,1},
+        {1,0,0,0,0,0,0,1,0,0,1,1},
+        {1,1,0,1,1,1,1,0,0,1,1,1},
+        {1,1,1,1,1,1,1,1,2,1,1,1}
         };
     if (direction == 1) { // Facing north
         return grid[currentYGrid-1][currentXGrid];
@@ -170,33 +175,6 @@ void move() {
     update(triangleX, triangleY);
 
     checkForward(currentXGrid, currentYGrid, direction);
-
-    while (running == 1) {
-        forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-        //Keep moving forward until cannot move forward
-        while (forwardValue == 0) {
-            forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
-            forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-            sleep(waitTime);
-        }
-        if (forwardValue == 2) {
-            forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
-            printf("Reached end point!!!\n");
-            break;
-        }
-        printf("Hit wall\n");
-        //Turn right
-        right(triangleX, triangleY, direction);
-        update(triangleX, triangleY);
-        sleep(waitTime);
-        if (direction == 4) {
-            direction = 1;
-        } else {
-            direction += 1;
-        }
-    }
 }
 
 int main(void) {
