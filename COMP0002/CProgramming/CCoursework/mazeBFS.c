@@ -4,7 +4,7 @@
 /*
 TO DO:
 - Create array for path e.g. what action it takes
-- Everytime it moves forward, robot will need to check all directions and check if more
+- Everytime it moves forward, robot will need to check all directions DONE and check if more
   than one exit, if yes then mark x and enter coords into array
     - Create function to check all directions
 - if dead end, then move to previous x and go out different exit
@@ -18,31 +18,35 @@ const int height = 560;
 const int moveDistance = 40;
 const int waitTime = 40;
 int triangleX[3], triangleY[3], direction, currentXGrid, currentYGrid, forwardValue;
+char pathArray[100];
+
+
+// 2D array for the maze
+int grid[12][12] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {0,0,0,1,0,0,0,1,0,1,1,1},
+    {1,1,0,1,0,1,0,1,0,0,0,1},
+    {1,1,0,1,0,0,0,0,0,1,1,1},
+    {1,1,0,1,0,1,1,1,0,1,0,1},
+    {1,1,0,0,0,1,1,0,0,0,0,1},
+    {1,1,0,1,0,0,0,0,1,0,1,1},
+    {1,0,0,1,0,1,0,1,1,0,1,1},
+    {1,0,1,1,0,1,1,1,1,0,0,1},
+    {1,0,0,0,0,0,0,1,0,0,1,1},
+    {1,1,0,1,1,1,1,0,0,1,1,1},
+    {1,1,1,1,1,1,1,1,2,1,1,1}
+};
 
 //  Function to draw the maze
 void drawBackground() {
     background();
     int i, j;
     //Grid for the maze (1 for black or 0 for white or 2 for grey)
-    int gridBack[12][12] = {
-        {1,1,1,1,1,1,1,1,1,1,1,1},
-        {0,0,0,1,0,0,0,1,0,1,1,1},
-        {1,1,0,1,0,1,0,1,0,0,0,1},
-        {1,1,0,1,0,0,0,0,0,1,1,1},
-        {1,1,0,1,0,1,1,1,0,1,0,1},
-        {1,1,0,0,0,1,1,0,0,0,0,1},
-        {1,1,0,1,0,0,0,0,1,0,1,1},
-        {1,0,0,1,0,1,0,1,1,0,1,1},
-        {1,0,1,1,0,1,1,1,1,0,0,1},
-        {1,0,0,0,0,0,0,1,0,0,1,1},
-        {1,1,0,1,1,1,1,0,0,1,1,1},
-        {1,1,1,1,1,1,1,1,2,1,1,1}
-        };
     for (i = 0; i <= 11; i++) {
         for (j = 0; j <= 11; j++) {
-            if (gridBack[i][j] == 1) {
+            if (grid[i][j] == 1) {
                 setColour(black);
-            } else if (gridBack[i][j] == 0) {
+            } else if (grid[i][j] == 0) {
                 setColour(white);
             } else {
                 setColour(gray);
@@ -84,6 +88,7 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
         }
         currentXGrid -= 1;
     }
+    update(triangleX, triangleY);
 }
 
 void right(int triangleX[3], int triangleY[3], int direction) {
@@ -109,7 +114,7 @@ void right(int triangleX[3], int triangleY[3], int direction) {
         triangleX[2] += 20;
         triangleY[2] -= 20;
     }
-    printf("Turned right\n");
+    update(triangleX, triangleY);
 }
 
 void left(int triangleX[3], int triangleY[3], int direction) {
@@ -135,25 +140,11 @@ void left(int triangleX[3], int triangleY[3], int direction) {
         triangleX[2] += 20;
         triangleY[2] += 20;
     }
-    printf("Turned left\n");
+    update(triangleX, triangleY);
 }
 
 // Return 0 if can move forward, return 1 if wall ahead, return 2 if end point ahead
 int checkForward(int currentXGrid, int currentYGrid, int direction) {
-    int grid[12][12] = {
-        {1,1,1,1,1,1,1,1,1,1,1,1},
-        {0,0,0,1,0,0,0,1,0,1,1,1},
-        {1,1,0,1,0,1,0,1,0,0,0,1},
-        {1,1,0,1,0,0,0,0,0,1,1,1},
-        {1,1,0,1,0,1,1,1,0,1,0,1},
-        {1,1,0,0,0,1,1,0,0,0,0,1},
-        {1,1,0,1,0,0,0,0,1,0,1,1},
-        {1,0,0,1,0,1,0,1,1,0,1,1},
-        {1,0,1,1,0,1,1,1,1,0,0,1},
-        {1,0,0,0,0,0,0,1,0,0,1,1},
-        {1,1,0,1,1,1,1,0,0,1,1,1},
-        {1,1,1,1,1,1,1,1,2,1,1,1}
-        };
     if (direction == 1) { // Facing north
         return grid[currentYGrid-1][currentXGrid];
     } else if (direction == 2) { // Facing east
@@ -164,6 +155,44 @@ int checkForward(int currentXGrid, int currentYGrid, int direction) {
         return grid[currentYGrid][currentXGrid - 1];
     }
 }
+
+// Function to check all directions, return 0 if only 1 exit, return 1 if more than one exit, return 2 if dead end
+// !!! Need to add to node array if more than 1 exit
+void checkAllDirections(int currentXGrid, int currentYGrid, int direction) {
+    int count = 0;
+    for (int i=1; i <= 4; i++) {
+        if (checkForward(currentXGrid, currentYGrid, direction) == 0) {
+            count += 1;
+        }
+        right(triangleX, triangleY, direction);
+        if (direction == 4) {
+            direction = 1;
+        } else {
+            direction += 1;
+        }
+    }
+    if (count == 1) {
+        printf("1 exit\n");
+    } else if (count > 1) {
+        printf("More than 1 exit\n");
+    } else if (count == 0) {
+        printf("Dead end\n");
+    }
+}
+
+// Function to reverse the robot back to previous point with more than 1 exit
+void reverseRobot(int triangleX[3], int triangleY[3], int direction) {
+    for (int a=1; a<=2; a++) {
+        right(triangleX, triangleY, direction);
+        if (direction == 4) {
+            direction = 1;
+        } else {
+            direction += 1;
+        }
+    }
+}
+
+// Function to show robot has already passed
 
 void move() {
     int running = 1;
@@ -186,19 +215,45 @@ void move() {
         forwardValue = checkForward(currentXGrid, currentYGrid, direction);
         //Keep moving forward until cannot move forward
         while (forwardValue == 0) {
+            checkAllDirections(currentXGrid, currentYGrid, direction);
             forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             forwardValue = checkForward(currentXGrid, currentYGrid, direction);
             sleep(waitTime);
         }
         if (forwardValue == 2) {
             forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             printf("Reached end point!!!\n");
             break;
         }
         printf("Hit wall\n");
-        break;
+
+        //Turn right and check if can move forward, if can't, then turn left twice to check other direction
+        right(triangleX, triangleY, direction);
+        sleep(waitTime);
+        if (direction == 4) {
+            direction = 1;
+        } else {
+            direction += 1;
+        }
+        forwardValue = checkForward(currentXGrid, currentYGrid, direction);
+        if (forwardValue == 1) {
+            left(triangleX, triangleY, direction);
+            sleep(waitTime);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+            left(triangleX, triangleY, direction);
+            sleep(waitTime);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+        }
+
+        // If dead end then call reverse until reaches the previous point in node array
     }
 }
 

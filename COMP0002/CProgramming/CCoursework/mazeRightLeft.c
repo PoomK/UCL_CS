@@ -75,6 +75,7 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
         }
         currentXGrid -= 1;
     }
+    update(triangleX, triangleY);
 }
 
 void right(int triangleX[3], int triangleY[3], int direction) {
@@ -100,6 +101,7 @@ void right(int triangleX[3], int triangleY[3], int direction) {
         triangleX[2] += 20;
         triangleY[2] -= 20;
     }
+    update(triangleX, triangleY);
     printf("Turned right\n");
 }
 
@@ -126,6 +128,7 @@ void left(int triangleX[3], int triangleY[3], int direction) {
         triangleX[2] += 20;
         triangleY[2] += 20;
     }
+    update(triangleX, triangleY);
     printf("Turned left\n");
 }
 
@@ -178,20 +181,17 @@ void move() {
         //Keep moving forward until cannot move forward
         while (forwardValue == 0) {
             forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             forwardValue = checkForward(currentXGrid, currentYGrid, direction);
             sleep(waitTime);
         }
         if (forwardValue == 2) {
             forward(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             printf("Reached end point!!!\n");
             break;
         }
         printf("Hit wall\n");
         //Turn right and check if can move forward, if can't, then turn left twice to check other direction
         right(triangleX, triangleY, direction);
-        update(triangleX, triangleY);
         sleep(waitTime);
         if (direction == 4) {
             direction = 1;
@@ -201,7 +201,6 @@ void move() {
         forwardValue = checkForward(currentXGrid, currentYGrid, direction);
         if (forwardValue == 1) {
             left(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             sleep(waitTime);
             if (direction == 1) {
                 direction = 4;
@@ -209,7 +208,6 @@ void move() {
                 direction -= 1;
             }
             left(triangleX, triangleY, direction);
-            update(triangleX, triangleY);
             sleep(waitTime);
             if (direction == 1) {
                 direction = 4;
