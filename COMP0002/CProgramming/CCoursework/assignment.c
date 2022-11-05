@@ -1,15 +1,15 @@
+// If turn right and cannot move forward, then it will go the other direction
+
 #include <stdio.h>
 #include "graphics.h"
 
-// Global constants and variables
+// Declare global variables and constants
 const int width = 560;
 const int height = 560;
 const int moveDistance = 40;
-const int waitTime = 500;
+const int waitTime = 150;
 int triangleX[3], triangleY[3], direction, currentXGrid, currentYGrid, forwardValue;
-char stepArr[1000]; // Array to store steps taken
-int xNodes[100] = {}, yNodes[100] = {}; // Arrays to store the x and y values of the nodes
-int currentCount = -1, nodeCount = -1, deadEndYN;
+char previousSteps[100];
 
 // 2D array for the maze
 int grid[12][12] = {
@@ -54,6 +54,7 @@ void update(int triangleX[3], int triangleY[3]) {
     fillPolygon(3,triangleX,triangleY);
 }
 
+// Function for moving the robot forward, depending on the direction it is facing
 void forward(int triangleX[3], int triangleY[3], int direction) {
     int i;
     if (direction == 1) { // Facing north
@@ -148,40 +149,6 @@ int checkForward(int currentXGrid, int currentYGrid, int direction) {
     }
 }
 
-void checkAllDirections(int currentXGrid, int currentYGrid, int direction) {
-    int count = 0;
-    for (int i=1; i <= 4; i++) {
-        if (checkForward(currentXGrid, currentYGrid, direction) == 0) {
-            count += 1;
-        }
-        right(triangleX, triangleY, direction);
-        if (direction == 4) {
-            direction = 1;
-        } else {
-            direction += 1;
-        }
-        sleep(waitTime);
-    }
-    if (count == 1) {
-        //printf("1 exit\n");
-    } else if (count > 1) {
-        //printf("More than 1 exit\n");
-        nodeCount += 1;
-        xNodes[nodeCount] = currentXGrid;
-        yNodes[nodeCount] = currentYGrid;
-        printf("Added node at %d,%d\n", currentXGrid, currentYGrid);
-        printf("Previous node: %d, %d\n", xNodes[nodeCount], yNodes[nodeCount]);
-    } else if (count == 0) {
-        printf("Detected dead end\n");
-        deadEndYN = 1;
-    }
-}
-
-// Add 3 into grid to show that robot already passed
-void addPath(int currentXGrid, int currentYGrid){
-    grid[currentYGrid][currentXGrid] = 3;
-}
-
 void move() {
     int running = 1;
     foreground();
@@ -200,36 +167,81 @@ void move() {
     checkForward(currentXGrid, currentYGrid, direction);
 
     while (running == 1) {
+        int count = 0;
         forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-        //Keep moving forward until cannot move forward
+
         while (forwardValue == 0) {
-            checkAllDirections(currentXGrid, currentYGrid, direction);
-            addPath(currentXGrid, currentYGrid);
+
             forward(triangleX, triangleY, direction);
-            forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-            sleep(waitTime);
+
+            right(triangleX, triangleY, direction);
+            if (direction == 4) {
+                direction = 1;
+            } else {
+                direction += 1;
+            }
+
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
+            left(triangleX, triangleY, direction);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
+            left(triangleX, triangleY, direction);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
+            right(triangleX, triangleY, direction);
+            if (direction == 4) {
+                direction = 1;
+            } else {
+                direction += 1;
+            }
+
+            // This loop will run if dead end is reached. The dead end will be marked as 1 so the robot will not return back. The robot will also u-turn.
+            if (count == 3) {
+                printf("At dead end\n");
+                grid[currentYGrid][currentXGrid] = 1;
+                right(triangleX, triangleY, direction);
+                if (direction == 4) {
+                    direction = 1;
+                } else {
+                    direction += 1;
+                }
+                right(triangleX, triangleY, direction);
+                if (direction == 4) {
+                    direction = 1;
+                } else {
+                    direction += 1;
+                }
+            }
         }
-        if (forwardValue == 2) {
+        if (checkForward(currentXGrid, currentYGrid, direction) == 2) {
             forward(triangleX, triangleY, direction);
             printf("Reached end point!!!\n");
             break;
-        }
-        printf("\n");
-        //printf("Hit wall\n");
-
-        // If dead end then reverse to previous node
-        /*checkAllDirections(currentXGrid, currentYGrid, direction);
-        if (deadEndYN == 1) {
-            reverseRobot(triangleX, triangleY, direction);
-        }*/
-
-        //Turn right and check if can move forward, if can't, then turn left twice to check other direction
-        right(triangleX, triangleY, direction);
-        sleep(waitTime);
-        if (direction == 4) {
-            direction = 1;
-        } else {
-            direction += 1;
         }
     }
 }

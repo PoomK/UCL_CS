@@ -176,7 +176,7 @@ void checkAllDirections(int currentXGrid, int currentYGrid, int direction) {
     if (count == 1) {
         //printf("1 exit\n");
     } else if (count > 1) {
-        //printf("More than 1 exit\n");
+        printf("More than 1 exit\n");
         nodeCount += 1;
         xNodes[nodeCount] = currentXGrid;
         yNodes[nodeCount] = currentYGrid;
@@ -206,6 +206,7 @@ void reverseRobot(int triangleX[3], int triangleY[3], int direction) {
     }
     for (int i = 1; i <= currentCount - nodePos[nodeCount]; i++) {
         if (stepArr[currentCount] == 'F') {
+            grid[currentYGrid][currentXGrid] = 0;
             forward(triangleX, triangleY, direction);
             sleep(waitTime);
         } else if (stepArr[currentCount] == 'R') {

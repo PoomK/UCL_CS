@@ -76,6 +76,7 @@ void forward(int triangleX[3], int triangleY[3], int direction) {
         currentXGrid -= 1;
     }
     update(triangleX, triangleY);
+    sleep(waitTime);
 }
 
 void right(int triangleX[3], int triangleY[3], int direction) {
@@ -103,6 +104,7 @@ void right(int triangleX[3], int triangleY[3], int direction) {
     }
     update(triangleX, triangleY);
     printf("Turned right\n");
+    sleep(waitTime);
 }
 
 void left(int triangleX[3], int triangleY[3], int direction) {
@@ -130,6 +132,7 @@ void left(int triangleX[3], int triangleY[3], int direction) {
     }
     update(triangleX, triangleY);
     printf("Turned left\n");
+    sleep(waitTime);
 }
 
 // Return 0 if can move forward, return 1 if wall ahead, return 2 if end point ahead
@@ -182,7 +185,6 @@ void move() {
         while (forwardValue == 0) {
             forward(triangleX, triangleY, direction);
             forwardValue = checkForward(currentXGrid, currentYGrid, direction);
-            sleep(waitTime);
         }
         if (forwardValue == 2) {
             forward(triangleX, triangleY, direction);
@@ -192,7 +194,6 @@ void move() {
         printf("Hit wall\n");
         //Turn right and check if can move forward, if can't, then turn left twice to check other direction
         right(triangleX, triangleY, direction);
-        sleep(waitTime);
         if (direction == 4) {
             direction = 1;
         } else {
@@ -201,14 +202,12 @@ void move() {
         forwardValue = checkForward(currentXGrid, currentYGrid, direction);
         if (forwardValue == 1) {
             left(triangleX, triangleY, direction);
-            sleep(waitTime);
             if (direction == 1) {
                 direction = 4;
             } else {
                 direction -= 1;
             }
             left(triangleX, triangleY, direction);
-            sleep(waitTime);
             if (direction == 1) {
                 direction = 4;
             } else {
