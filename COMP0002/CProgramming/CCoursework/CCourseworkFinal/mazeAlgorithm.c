@@ -9,7 +9,6 @@ const int height = 560;
 const int moveDistance = 40;
 const int waitTime = 150;
 int triangleX[3], triangleY[3], direction, currentXGrid, currentYGrid, forwardValue;
-char previousSteps[100];
 
 // 2D array for the maze
 int grid[12][12] = {
