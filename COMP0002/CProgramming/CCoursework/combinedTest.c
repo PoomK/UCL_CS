@@ -1,7 +1,7 @@
-// If turn right and cannot move forward, then it will go the other direction
-// Stick to right hand side unless cannot then will turn left
 #include <stdio.h>
 #include "graphics.h"
+#include <stdlib.h>
+#include <time.h>
 
 // Declare global variables and constants
 const int width = 560;
@@ -10,23 +10,64 @@ const int moveDistance = 40;
 const int waitTime = 150;
 int triangleX[3], triangleY[3], direction, currentXGrid, currentYGrid, forwardValue;
 
-// 2D array for the maze
+// Set start position
+int currentI = 0, currentJ = 1;
+
+// Create grid for the maze
 int grid[12][12] = {
     {1,1,1,1,1,1,1,1,1,1,1,1},
-    {0,0,0,1,0,0,0,1,0,1,1,1},
-    {1,1,0,1,0,1,0,1,0,0,0,1},
-    {1,1,0,1,0,0,0,0,0,1,1,1},
-    {1,1,0,1,0,1,1,1,0,1,0,1},
-    {1,1,0,0,0,1,1,0,0,0,0,1},
-    {1,1,0,1,0,1,0,0,1,0,1,1},
-    {1,0,0,1,0,1,0,1,1,0,1,1},
-    {1,0,1,1,0,1,1,1,1,0,0,1},
-    {1,0,0,0,0,0,0,1,0,0,1,1},
-    {1,1,0,1,1,1,1,0,0,1,1,1},
-    {1,1,1,1,1,1,1,1,2,1,1,1}
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-// Function to draw the maze
+// Function to draw main path of the maze including the finish line
+void generateMaze() {
+    int randomVal = 0, randomNode = 0, running = 1, nodeCount = 0;
+    grid[currentJ][currentI] = 0;
+    currentI += 1;
+    grid[currentJ][currentI] = 0;
+    currentI += 1;
+    grid[currentJ][currentI] = 0;
+    currentJ += 1;
+    grid[currentJ][currentI] = 0;
+    while (grid[currentI][currentJ + 1] != 0 || grid[currentI+1][currentJ] != 0) {
+        randomVal = rand() % (100 + 1 - 1) + 1;
+        if (randomVal >= 50) {
+            currentJ += 1;
+        } else {
+            currentI += 1;
+        }
+        if (currentI == 11 || currentJ == 11) {
+            grid[currentJ][currentI] = 2;
+            break;
+        } else {
+            grid[currentJ][currentI] = 0;
+        }
+    }
+}
+
+// Function to draw the traps
+void drawTraps() {
+    int junctionI = 0, junctionJ = 0, randomVal = 0;
+    junctionI = rand() % (10 + 1 - 1) + 1;
+    junctionJ = rand() % (10 + 1 - 1) + 1;
+    for (int i=0; i<= 50; i++) {
+        junctionI = rand() % (10 + 1 - 1) + 1;
+        junctionJ = rand() % (10 + 1 - 1) + 1;
+        grid[junctionJ][junctionI] = 0;
+    }
+}
+
+//  Function to draw the maze
 void drawBackground() {
     background();
     int i, j;
@@ -246,7 +287,10 @@ void move() {
 }
 
 int main(void) {
+    srand(time(0)); // Seed for random generator
     setWindowSize(width, height);
+    generateMaze();
+    drawTraps();
     drawBackground();
     move();
 }
