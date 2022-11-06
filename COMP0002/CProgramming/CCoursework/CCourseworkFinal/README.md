@@ -4,8 +4,7 @@
 
 ### Maze generator
 
-
-##Commands to run the program
+## Commands to run the program
 
 ### Maze algorithm
 Compile the code using gcc and run it as usual
