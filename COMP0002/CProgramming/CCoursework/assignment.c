@@ -1,6 +1,5 @@
 // If turn right and cannot move forward, then it will go the other direction
 // Stick to right hand side unless cannot then will turn left
-
 #include <stdio.h>
 #include "graphics.h"
 
@@ -28,7 +27,7 @@ int grid[12][12] = {
     {1,1,1,1,1,1,1,1,2,1,1,1}
 };
 
-//  Function to draw the maze
+// Function to draw the maze
 void drawBackground() {
     background();
     int i, j;
