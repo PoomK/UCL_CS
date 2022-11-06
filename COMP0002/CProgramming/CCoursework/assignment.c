@@ -1,4 +1,5 @@
 // If turn right and cannot move forward, then it will go the other direction
+// Stick to right hand side unless cannot then will turn left
 
 #include <stdio.h>
 #include "graphics.h"
@@ -19,7 +20,7 @@ int grid[12][12] = {
     {1,1,0,1,0,0,0,0,0,1,1,1},
     {1,1,0,1,0,1,1,1,0,1,0,1},
     {1,1,0,0,0,1,1,0,0,0,0,1},
-    {1,1,0,1,0,0,0,0,1,0,1,1},
+    {1,1,0,1,0,1,0,0,1,0,1,1},
     {1,0,0,1,0,1,0,1,1,0,1,1},
     {1,0,1,1,0,1,1,1,1,0,0,1},
     {1,0,0,0,0,0,0,1,0,0,1,1},
@@ -174,6 +175,45 @@ void move() {
 
             forward(triangleX, triangleY, direction);
 
+            // Will check right side of robot. If open, it will break out of look and move
+            right(triangleX, triangleY, direction);
+            if (direction == 4) {
+                direction = 1;
+            } else {
+                direction += 1;
+            }
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
+            // Turn left and check if free, if yes then break
+            left(triangleX, triangleY, direction);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
+            // Turn left again and check if free, if yes then break
+            left(triangleX, triangleY, direction);
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction -= 1;
+            }
+            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
+                break;
+            } else {
+                count += 1;
+            }
+
             right(triangleX, triangleY, direction);
             if (direction == 4) {
                 direction = 1;
@@ -181,48 +221,9 @@ void move() {
                 direction += 1;
             }
 
-            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
-                break;
-            } else {
-                count += 1;
-            }
-
-            left(triangleX, triangleY, direction);
-            if (direction == 1) {
-                direction = 4;
-            } else {
-                direction -= 1;
-            }
-
-            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
-                break;
-            } else {
-                count += 1;
-            }
-
-            left(triangleX, triangleY, direction);
-            if (direction == 1) {
-                direction = 4;
-            } else {
-                direction -= 1;
-            }
-
-            if (checkForward(currentXGrid, currentYGrid, direction) == 0 || checkForward(currentXGrid, currentYGrid, direction) == 2) {
-                break;
-            } else {
-                count += 1;
-            }
-
-            right(triangleX, triangleY, direction);
-            if (direction == 4) {
-                direction = 1;
-            } else {
-                direction += 1;
-            }
-
-            // This loop will run if dead end is reached. The dead end will be marked as 1 so the robot will not return back. The robot will also u-turn.
+            // This loop will run if dead end is reached. The dead end will be marked as 1 so the robot will not return back. The robot will also u-turn so that it will face the other way and continue moving
             if (count == 3) {
-                printf("At dead end\n");
+                printf("Marked dead end\n");
                 grid[currentYGrid][currentXGrid] = 1;
                 right(triangleX, triangleY, direction);
                 if (direction == 4) {
