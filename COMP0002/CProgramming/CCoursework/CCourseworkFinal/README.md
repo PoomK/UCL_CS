@@ -1,4 +1,4 @@
-##How program works
+## How program works
 
 ### Maze algorithm
 
