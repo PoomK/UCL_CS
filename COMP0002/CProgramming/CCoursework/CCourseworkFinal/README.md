@@ -2,6 +2,8 @@
 
 ### Maze algorithm
 
+The maze algorithm uses the stick to the right basis. Everytime the robot moves, 
+
 ### Maze generator
 
 ## Commands to run the program
