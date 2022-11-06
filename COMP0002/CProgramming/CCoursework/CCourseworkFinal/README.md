@@ -18,7 +18,7 @@ The x and y values of the starting points are passed in. It will then be randomi
 
 To make the maze more interesting, 50 random walls will be removed within the grid which will create either dead ends or loops which can trick the robot. This is done through the drawTrap function.
 
-## Commands to run the program
+## What each file is and how to run them
 
 ### 1. mazeGeneratorPlusAlgo.c
 This file contains both the generator and algorithm where a random maze will be generated and the robot will move using the algorithm to the end.
