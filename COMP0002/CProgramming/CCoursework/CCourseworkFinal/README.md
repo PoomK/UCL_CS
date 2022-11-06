@@ -20,8 +20,20 @@ To make the maze more interesting, 50 random walls will be removed within the gr
 
 ## Commands to run the program
 
-### 1. Maze algorithm
+### 1. mazeGeneratorPlusAlgo.c
+This file contains both the generator and algorithm where a random maze will be generated and the robot will move using the algorithm to the end.
+
+HOW TO RUN?
 Compile the code using gcc and run it as usual
 
-### 2. Maze generator
+### 2. mazeAlgorithm.c
+This file contains only the algorithm of the robot.
+
+HOW TO RUN?
+Compile the code using gcc and run it as usual
+
+### 3. mazeGenerator.c
+This file contains only the maze generator.
+
+HOW TO RUN?
 Compile the code using gcc and run it as usual
