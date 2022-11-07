@@ -28,19 +28,25 @@ To make the maze more interesting, 50 random walls will be removed within the gr
 This file contains both the generator and algorithm where a random maze will be generated and the robot will move using the algorithm to the end.
 
 HOW TO RUN?
+
 gcc -o mazeGeneratorPlusAlgo mazeGeneratorPlusAlgo.c graphics.c
+
 ./mazeGeneratorPlusAlgo | java -jar drawapp-2.0.jar
 
 ### 2. mazeAlgorithm.c
 This file contains only the algorithm of the robot.
 
 HOW TO RUN?
+
 gcc -o mazeAlgorithm mazeAlgorithm.c graphics.c
+
 ./mazeAlgorithm | java -jar drawapp-2.0.jar
 
 ### 3. mazeGenerator.c
 This file contains only the maze generator.
 
 HOW TO RUN?
+
 gcc -o mazeGenerator mazeGenerator.c graphics.c
+
 ./mazeGenerator | java -jar drawapp-2.0.jar
