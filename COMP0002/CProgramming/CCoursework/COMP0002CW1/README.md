@@ -12,7 +12,7 @@ At every position, the robot will also check in all directions to see if the end
 
 Here is a diagram to show how the algorithm works.
 
-!(MazeDiagram1.jpg)
+!(/MazeDiagram1.jpg)
 
 ### 2. Maze generator
 
