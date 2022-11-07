@@ -10,15 +10,18 @@ If the robot can't move in all directions, it means that it has reached a dead e
 
 At every position, the robot will also check in all directions to see if the end is in sight, marked as 2 in the grid. If it can move to the end at the next move, it will break out from the loop and finally reaching the end.
 
-Here is a diagram to show how the algorithm works.
+Here are two diagram to show how the algorithm works on mazes generated.
 
-!(/MazeDiagram1.jpg)
+<p float="left">
+  <img src="MazeDiagram1.jpg" width="450" />
+  <img src="MazeDiagram2.jpg" width="450" /> 
+</p>
 
 ### 2. Maze generator
 
 Firstly, a global 2d array is declared which will form the maze. The generate maze algorithm will create the main path which will create a clear path between the start point and the end.
 
-The x and y values of the starting points are passed in. It will then be randomized whether the marker will move down or right. This will keep repeating until either the market reaches x = 11 or y = 11 which is the edge of the grid. The final market will then be marked as 2 which signifies the end. This will create a simple path between the start and the end.
+The x and y values of the starting points are passed in. It will then be randomized whether the marker will move down or right. This will keep repeating until either the market reaches x = 11 or y = 11 which is the edge of the grid. The final market will then be marked as 2 which signifies the end. This ensures that there will always be a valid path between the start and the end.
 
 To make the maze more interesting, 50 random walls will be removed within the grid which will create either dead ends or loops which can trick the robot. This is done through the drawTrap function.
 
