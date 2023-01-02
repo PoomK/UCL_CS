@@ -76,7 +76,8 @@ singleton = undefined
 -- insert an element of type a into a Set
 -- make sure there are no duplicates!
 insert :: (Ord a) => a -> Set a -> Set a
-insert = undefined
+insert x (Set xs) = fromList (x:xs)
+-- !!!!!!!! When inserting, set is not in order
 
 
 -- join two Sets together
