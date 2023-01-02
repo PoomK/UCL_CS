@@ -29,7 +29,8 @@
 -}
 
 -- you may change this to your own data type
-newtype Set a = Set { unSet :: [a] }
+newtype Set a = Set { unSet :: [a] } deriving (Show)
+-- newtype Set a = Set [a] deriving (Show)
 
 {-
    PART 2.
@@ -39,13 +40,19 @@ newtype Set a = Set { unSet :: [a] }
 
 -- toList {2,1,4,3} => [1,2,3,4]
 -- the output must be sorted.
-toList :: Set a -> [a]
-toList = undefined
+-- toList :: Set a -> [a] (Old signature, not sure how to implement without adding Ord a)
+toList :: (Ord a) => Set a -> [a]
+toList (Set s) = quicksort s
+quicksort :: Ord a => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) = quicksort [y | y <- xs, y < x] ++ [x] ++ quicksort [y | y <- xs, y >= x]
 
 -- fromList [2,1,1,4,5] => {2,1,4,5}
 fromList :: Ord a => [a] -> Set a
-fromList = undefined
-
+fromList xs = Set (removeDup xs) 
+   where
+      removeDup [] = []
+      removeDup (x:xs) = x : removeDup (filter (/= x) xs)
 
 {-
    PART 3.
