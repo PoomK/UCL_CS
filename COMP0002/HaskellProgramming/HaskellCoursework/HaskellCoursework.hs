@@ -83,7 +83,7 @@ insert x (Set xs) = fromList (x:xs)
 -- join two Sets together
 -- be careful not to introduce duplicates.
 union :: (Ord a) => Set a -> Set a -> Set a
-union = undefined
+union (Set xs) (Set ys) = fromList (xs ++ ys)
 
 
 -- return the common elements between two Sets
