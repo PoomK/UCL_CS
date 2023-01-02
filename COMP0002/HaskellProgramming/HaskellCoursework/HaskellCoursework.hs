@@ -30,7 +30,6 @@
 
 -- you may change this to your own data type
 newtype Set a = Set { unSet :: [a] } deriving (Show)
--- newtype Set a = Set [a] deriving (Show)
 
 {-
    PART 2.
@@ -42,7 +41,7 @@ newtype Set a = Set { unSet :: [a] } deriving (Show)
 -- the output must be sorted.
 -- toList :: Set a -> [a] (Old signature, not sure how to implement without adding Ord a)
 toList :: (Ord a) => Set a -> [a]
-toList (Set s) = quicksort s
+toList (Set b) = quicksort b
 quicksort :: Ord a => [a] -> [a]
 quicksort [] = []
 quicksort (x:xs) = quicksort [y | y <- xs, y < x] ++ [x] ++ quicksort [y | y <- xs, y >= x]
@@ -62,8 +61,7 @@ fromList xs = Set (removeDup xs)
 
 -- test if two sets have the same elements.
 instance (Ord a) => Eq (Set a) where
-  s1 == s2 = undefined
-
+  s1 == s2 = (toList s1) == (toList s2)
 
 -- the empty set
 empty :: Set a
