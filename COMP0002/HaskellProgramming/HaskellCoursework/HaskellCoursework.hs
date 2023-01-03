@@ -64,8 +64,8 @@ fromList xs = Set (removeDup xs)
 -}
 
 -- test if two sets have the same elements.
-instance (Ord a) => Eq (Set a) where
-  s1 == s2 = (toList s1) == (toList s2)
+instance (Ord a) => Eq (Set a) 
+   where s1 == s2 = (toList s1) == (toList s2)
 
 -- the empty set
 empty :: Set a
@@ -100,45 +100,43 @@ intersection (Set xs) (Set ys) = fromList [x | x <- xs, x `elem` ys]
 -- {1,2,3,4} `difference` {3,4} => {1,2}
 -- {} `difference` {0} => {}
 difference :: (Ord a) => Set a -> Set a -> Set a
-difference = undefined
+difference (Set a) (Set b) = Set [x | x <- a, not (x `elem` b)]
 
 -- is element *a* in the Set?
 member :: (Ord a) => a -> Set a -> Bool
-member = undefined
-
+member x (Set xs) = elem x xs
 
 -- how many elements are there in the Set?
 cardinality :: Set a -> Int
-cardinality = undefined
-
+cardinality (Set xs) = length xs
 
 setmap :: (Ord b) => (a -> b) -> Set a -> Set b
-setmap = undefined
-
+setmap f (Set xs) = Set (map f xs)
 
 setfoldr :: (a -> b -> b) -> Set a -> b -> b
-setfoldr = undefined
-
+setfoldr f (Set xs) v = foldr f v xs
 
 -- powerset of a set
 -- powerset {1,2} => { {}, {1}, {2}, {1,2} }
 powerSet :: Set a -> Set (Set a)
-powerSet = undefined
-
+powerSet (Set xs) = Set (map Set (powerSet' xs))
+   where
+      powerSet' :: [a] -> [[a]]
+      powerSet' [] = [[]]
+      powerSet' (x:xs) = let pxs = powerSet' xs in pxs ++ map (x:) pxs
 
 -- cartesian product of two sets
 cartesian :: Set a -> Set b -> Set (a, b)
-cartesian = undefined
-
+cartesian (Set xs) (Set ys) = Set [(x, y) | x <- xs, y <- ys]
 
 -- partition the set into two sets, with
 -- all elements that satisfy the predicate on the left,
 -- and the rest on the right
 partition :: (a -> Bool) -> Set a -> (Set a, Set a)
-partition = undefined
-
-
-
+partition partitionSet (Set xs) = (Set left, Set right)
+   where
+      left = filter partitionSet xs
+      right = filter (not . partitionSet) xs
 {-
    On Marking:
    Be careful! This coursework will be marked using QuickCheck, against Haskell's own
