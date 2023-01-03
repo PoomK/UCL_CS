@@ -1,4 +1,5 @@
--- module Coursework where
+-- module Coursework
+-- Student number: 22008223
 
 {-
   Your task is to design a datatype that represents the mathematical concept of a (finite) set of elements (of the same type).
