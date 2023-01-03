@@ -40,6 +40,8 @@ newtype Set a = Set { unSet :: [a] } deriving (Show)
 -- toList {2,1,4,3} => [1,2,3,4]
 -- the output must be sorted.
 -- toList :: Set a -> [a] (Old signature, not sure how to implement without adding Ord a)
+-- toList (Set [2,1,5,6,7,9])
+-- Result: [1,2,5,6,7,9]
 toList :: (Ord a) => Set a -> [a]
 toList (Set b) = quicksort b
 quicksort :: Ord a => [a] -> [a]
@@ -47,6 +49,8 @@ quicksort [] = []
 quicksort (x:xs) = quicksort [y | y <- xs, y < x] ++ [x] ++ quicksort [y | y <- xs, y >= x]
 
 -- fromList [2,1,1,4,5] => {2,1,4,5}
+-- fromList [2,1,1,4,5,5,7,8,8]
+-- Result: Set {unSet = [2,1,4,5,7,8]}
 fromList :: Ord a => [a] -> Set a
 fromList xs = Set (removeDup xs) 
    where
@@ -65,38 +69,38 @@ instance (Ord a) => Eq (Set a) where
 
 -- the empty set
 empty :: Set a
-empty = undefined
-
+empty = Set []
 
 -- Set with one element
 singleton :: a -> Set a
-singleton = undefined
-
+singleton x = Set [x]
 
 -- insert an element of type a into a Set
 -- make sure there are no duplicates!
+-- insert 1 (Set [2,3,4])
+-- Result: Set {unSet = [1,2,3,4]}
 insert :: (Ord a) => a -> Set a -> Set a
 insert x (Set xs) = fromList (x:xs)
 -- !!!!!!!! When inserting, set is not in order
 
-
 -- join two Sets together
 -- be careful not to introduce duplicates.
+-- let set1 = Set [1,2,3]
+-- let set2 = Set [3,4,5]
+-- union set1 set2
+-- Result: Set {unSet = [1,2,3,4,5]}
 union :: (Ord a) => Set a -> Set a -> Set a
 union (Set xs) (Set ys) = fromList (xs ++ ys)
 
-
 -- return the common elements between two Sets
 intersection :: (Ord a) => Set a -> Set a -> Set a
-intersection = undefined
-
+intersection (Set xs) (Set ys) = fromList [x | x <- xs, x `elem` ys]
 
 -- all the elements in Set A *not* in Set B,
 -- {1,2,3,4} `difference` {3,4} => {1,2}
 -- {} `difference` {0} => {}
 difference :: (Ord a) => Set a -> Set a -> Set a
 difference = undefined
-
 
 -- is element *a* in the Set?
 member :: (Ord a) => a -> Set a -> Bool
