@@ -125,7 +125,7 @@ powerSet (Set xs) = Set (map Set (powerSet' xs))
       powerSet' [] = [[]]
       powerSet' (x:xs) = let pxs = powerSet' xs in pxs ++ map (x:) pxs
 
--- cartesian product of two sets
+-- cartesian product of two sets (Shows all possible pairings of the elements in each set)
 cartesian :: Set a -> Set b -> Set (a, b)
 cartesian (Set xs) (Set ys) = Set [(x, y) | x <- xs, y <- ys]
 
