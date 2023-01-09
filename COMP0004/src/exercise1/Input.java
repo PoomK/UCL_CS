@@ -1,3 +1,5 @@
+package exercise1;
+
 import java.io.Closeable;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -39,7 +41,7 @@ public class Input implements Closeable, Iterator<String>
     protected Scanner scanner;
 
     /**
-     * The default constructor of an <code>Input</code> that assumes <code>System.in</code> is to
+     * The default constructor of an <code>exercise1.Input</code> that assumes <code>System.in</code> is to
      * be the <code>InputStream</code> used.
      */
     public Input()
@@ -48,7 +50,7 @@ public class Input implements Closeable, Iterator<String>
     }
 
     /**
-     * Constructor of an <code>Input</code> object given an <code>InputStream</code> object.
+     * Constructor of an <code>exercise1.Input</code> object given an <code>InputStream</code> object.
      */
     public Input(final InputStream in)
     {
@@ -534,7 +536,7 @@ public class Input implements Closeable, Iterator<String>
      */
     private void illegalStateExceptionHandler()
     {
-        System.err.println("Input has been closed.");
+        System.err.println("exercise1.Input has been closed.");
         System.exit(1);
     }
 
@@ -543,7 +545,7 @@ public class Input implements Closeable, Iterator<String>
      */
     private void inputMismatchExceptionHandler(final String type)
     {
-        System.err.println("Input did not represent " +
+        System.err.println("exercise1.Input did not represent " +
                 (type.equals("int") ? "an" : "a") + " " + type + " value.");
         System.exit(1);
     }
